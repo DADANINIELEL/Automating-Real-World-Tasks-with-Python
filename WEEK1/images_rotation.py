@@ -8,7 +8,7 @@ size = (128, 128)
 new_dir="/opt/icons/"
 img_dir="images/"
 
-for with os.scandir(img_dir) as entries: #python 3.5 en la VM, tuve que cambiarlo en el script
+with os.scandir(img_dir) as entries: #python 3.5 en la VM, tuve que cambiarlo en el script
     for entry in entries:
         out_file = new_dir + entry.name + ".jpeg"
         #print(entry.name, out_file)

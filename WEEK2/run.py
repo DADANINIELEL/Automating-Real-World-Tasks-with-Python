@@ -5,8 +5,8 @@ import json
 import requests
 from pprint import pprint
 
-FB_PATH = 'data/feedback/'
-SITE_IP = 'http://127.0.0.1'
+FB_PATH = '/data/feedback/'
+SITE_IP = 'http://34.70.208.246'
 
 dir_files = []
 fb_list = []
@@ -14,7 +14,7 @@ title, name, fb_date, feedback = '', '', '', ''
 
 dir_files = os.listdir(FB_PATH)
 
-pprint(dir_files)
+#print(dir_files)
 
 for file in dir_files:
     with open(FB_PATH + file, 'r') as fb:
@@ -26,9 +26,11 @@ for file in dir_files:
                'name': name,
                'date': fb_date,
                'feedback': feedback }
-        response = requests.post(SITE_IP+'/feedback', data=foo)
-        pprint(response.request.url, response.request.body, str(response.ok) )
+        #print(foo)
+        response = requests.post(SITE_IP + '/feedback/', data=foo)
+        #print(response.request.url, response.request.body, str(response.ok) )
         response.raise_for_status()
+
 
 
     

@@ -8,7 +8,7 @@ import locale
 
 descr_dir = "supplier-data/descriptions/"
 data = {}
-url='http:// /upload/'
+url='http://35.184.104.167/fruits/'
 
 
 files_txt = [fn for fn in os.listdir(descr_dir) if fn.endswith('.txt')]

@@ -4,6 +4,7 @@ import shutil
 import psutil
 import emails
 import socket
+import os
 
 
 CPU_THRESHOLD = 80.0 # 80%
@@ -24,7 +25,7 @@ except Exception:
     #no hay localhost
     subject='Error - localhost cannot be resolved to 127.0.0.1'
 
-if mem.available <= THRESHOLD:
+if mem.available <= MEM_THRESHOLD:
     subject = 'Error - Available memory is less than 500MB'
 if cpu >= CPU_THRESHOLD:
     subject = 'Error - CPU usage is over 80%'
@@ -33,7 +34,7 @@ if disk.percent >= DISK_USAGE_THRESHOLD:
 
 if subject is not '':
     em=emails.generate_email_error_report(sender, receiver, subject, body)
-    send_email(em)
+    emails.send_email(em)
 
 
 

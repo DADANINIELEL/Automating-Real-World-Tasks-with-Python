@@ -3,6 +3,9 @@
 import json
 import locale
 import sys
+import reports
+import emails
+import os
 
 
 def load_data(filename):
@@ -39,10 +42,10 @@ def process_data(data):
     if item['total_sales'] > max_sales['total_sales']:
         max_sales = item
     # TODO: also handle most popular car_year
-    if [item['car']['car_year']] in popular:
+    if item['car']['car_year'] in popular:
         popular[item['car']['car_year']] += item['total_sales']
     else:
-        popular[item['car']['car_year']] = item['total_sales']        
+        popular[item['car']['car_year']] = item['total_sales']
 
   max_pop = max(popular, key=popular.get)
 
@@ -51,7 +54,7 @@ def process_data(data):
       format_car(max_revenue["car"]), max_revenue["revenue"]),
     "The {} had the most sales: {}".format(
       format_car(max_sales["car"]), max_sales["total_sales"]),
-    "The most popular year was {} with {total sales in that year} sales.".format(
+    "The most popular year was {} with {} sales.".format(
       str(max_pop), popular[max_pop])
   ]
 
@@ -62,7 +65,8 @@ def cars_dict_to_table(car_data):
   """Turns the data in car_data into a list of lists."""
   table_data = [["ID", "Car", "Price", "Total Sales"]]
   for item in car_data:
-    table_data.append([item["id"], format_car(item["car"]), item["price"], item["total_sales"]])
+    table_data.append([item["id"], format_car(item["car"]),
+                      item["price"], item["total_sales"]])
   return table_data
 
 
@@ -72,8 +76,14 @@ def main(argv):
   summary = process_data(data)
   print(summary)
   # TODO: turn this into a PDF report
+  reports.generate('tmp/cars.pdf', 'Sales summary for last month', '<br/>'.join(summary), sorted(cars_dict_to_table(data), lambda k: k[1], reversed=True)
 
   # TODO: send the PDF report as an email attachment
+  emails.generate(sender="automation@example.com",
+                  recipient="{}@example.com".format(os.environ.get('USER')),
+                  subject='Sales summary for last month',
+                  body='/n'.join(summary),
+                  attachment_path='tmp/cars.pdf')
 
 
 if __name__ == "__main__":

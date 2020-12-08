@@ -76,15 +76,14 @@ def main(argv):
   summary = process_data(data)
   print(summary)
   # TODO: turn this into a PDF report
-  reports.generate('tmp/cars.pdf', 'Sales summary for last month', '<br/>'.join(summary), sorted(cars_dict_to_table(data), lambda k: k[1], reversed=True)
-
+  reports.generate('/tmp/cars.pdf', 'Sales summary for last month', '<br/>'.join(summary), cars_dict_to_table(data))
+  #reports.generate('tmp/cars.pdf', 'Sales summary for last month', '<br/>'.join(summary), sorted(cars_dict_to_table(data), key=lambda k: int(k[2].strip("$"))*k[3], reverse=True))
   # TODO: send the PDF report as an email attachment
-  emails.generate(sender="automation@example.com",
-                  recipient="{}@example.com".format(os.environ.get('USER')),
-                  subject='Sales summary for last month',
-                  body='/n'.join(summary),
-                  attachment_path='tmp/cars.pdf')
-
+  sender = "automation@example.com"
+  receiver = "{}@example.com".format(os.environ.get('USER'))
+  subject = 'Sales summary for last month'
+  body = '/n'.join(summary)
+  em = emails.generate(sender, receiver, subject, body, '/tmp/cars.pdf')
 
 if __name__ == "__main__":
   main(sys.argv)

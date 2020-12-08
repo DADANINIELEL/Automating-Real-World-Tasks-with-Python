@@ -82,7 +82,7 @@ def main(argv):
   sender = "automation@example.com"
   receiver = "{}@example.com".format(os.environ.get('USER'))
   subject = 'Sales summary for last month'
-  body = '/n'.join(summary)
+  body = '\n'.join(summary)
   em = emails.generate(sender, receiver, subject, body, '/tmp/cars.pdf')
 
 if __name__ == "__main__":

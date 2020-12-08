@@ -129,4 +129,5 @@ dmypy.json
 .pyre/
 
 # images WEEK4
-.WEEK4/supplier-data/
+.WEEK4/supplier-data/descriptions/*
+.WEEK4/supplier-data/images/*

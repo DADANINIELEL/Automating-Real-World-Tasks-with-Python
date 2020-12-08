@@ -40,9 +40,9 @@ def process_data(data):
         max_sales = item
     # TODO: also handle most popular car_year
     if [item['car']['year']] in popular:
-        popular[item['car']['year']] += item['total_sales']
+        popular[item['car']['car_year']] += item['total_sales']
     else:
-        popular[item['car']['year']] = item['total_sales']        
+        popular[item['car']['car_year']] = item['total_sales']        
 
   max_pop = max(popular, key=popular.get)
 
